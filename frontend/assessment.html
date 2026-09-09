@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITFORGE - Fitness Assessment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">FITFORGE</div>
+    </header>
+
+    <main class="hero">
+        <div class="hero-text">
+            <h1>Fitness Assessment</h1>
+
+            <p>
+                Enter your basic fitness results to discover
+                which sports may suit your strengths.
+            </p>
+
+            <div class="assessment-form">
+
+    <label>100m Sprint Time (seconds)</label>
+    <input type="number" id="sprint" placeholder="Example: 15">
+
+    <label>Push-ups (repetitions)</label>
+    <input type="number" id="pushups" placeholder="Example: 20">
+
+    <label>Vertical Jump (cm)</label>
+    <input type="number" id="jump" placeholder="Example: 40">
+
+    <label>Endurance Run (minutes)</label>
+    <input type="number" id="endurance" placeholder="Example: 10">
+
+    <button class="btn" onclick="calculateResult()">Analyze My Potential</button>
+
+</div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+
+</body>
+</html>

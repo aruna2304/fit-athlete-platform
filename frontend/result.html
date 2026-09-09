@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FITFORGE - Your Results</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">FITFORGE</div>
+    </header>
+
+    <main class="hero">
+
+        <div class="hero-text">
+
+            <h1>Your FITFORGE Analysis</h1>
+
+            <p>
+                Based on your fitness assessment, here are the
+                sports that match your current strengths.
+            </p>
+
+            <div class="hero-card">
+
+                <h2>🏆 Recommended Sports</h2>
+
+                <p id="result">Loading your recommendations...</p>
+
+                <br>
+
+                <h2>💪 Your Strengths</h2>
+
+                <p>Speed • Strength • Explosive Power</p>
+
+                <br>
+
+                <h2>🎯 Focus Areas</h2>
+
+                <p>Endurance • Flexibility • Consistency</p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const sports = params.get("sports");
+
+        document.getElementById("result").textContent =
+            sports || "No recommendation available.";
+    </script>
+
+</body>
+</html>
