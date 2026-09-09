@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
 
             <p>
                 Based on your fitness assessment, FITFORGE has identified
-                the sports that best match your current strengths.
+                sports that may match your current strengths.
             </p>
 
             <div class="hero-card">
@@ -36,25 +37,35 @@
 
                 <br>
 
-                <h2>💪 Your Strength Profile</h2>
+                <h2>📊 Your Fitness Results</h2>
 
                 <p>
-                    Your assessment evaluates four important areas:
+                    ⚡ Sprint:
+                    <strong id="sprintResult">-</strong> seconds
                 </p>
 
-                <p>⚡ Speed</p>
-                <p>💪 Strength</p>
-                <p>🚀 Explosive Power</p>
-                <p>🏃 Endurance</p>
+                <p>
+                    💪 Push-ups:
+                    <strong id="pushupResult">-</strong> repetitions
+                </p>
+
+                <p>
+                    🚀 Vertical Jump:
+                    <strong id="jumpResult">-</strong> cm
+                </p>
+
+                <p>
+                    🏃 Endurance:
+                    <strong id="enduranceResult">-</strong> minutes
+                </p>
 
                 <br>
 
                 <h2>🎯 What Next?</h2>
 
                 <p>
-                    Follow your personalized development plan,
-                    track your progress and connect with coaches
-                    and sports facilities.
+                    Follow your development plan, track your progress
+                    and connect with coaches and sports facilities.
                 </p>
 
                 <br>
@@ -69,26 +80,43 @@
 
     </main>
 
+
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const sports = params.get("sports");
+
+        // Get sport recommendations from URL
+
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const sports =
+            params.get("sports");
+
 
         if (sports) {
 
-            const sportList = sports.split(", ");
+            const sportList =
+                sports.split(", ");
+
 
             document.getElementById("result").innerHTML =
-                sportList.map((sport, index) => {
+
+                sportList.map((sport) => {
 
                     let icon = "🏅";
 
+
                     if (sport.startsWith("Athletics")) {
                         icon = "🏃";
-                    } else if (sport.startsWith("Football")) {
+                    }
+
+                    else if (sport.startsWith("Football")) {
                         icon = "⚽";
-                    } else if (sport.startsWith("Basketball")) {
+                    }
+
+                    else if (sport.startsWith("Basketball")) {
                         icon = "🏀";
                     }
+
 
                     return `
                         <div class="sport-result">
@@ -98,13 +126,63 @@
 
                 }).join("");
 
-        } else {
+        }
+
+        else {
 
             document.getElementById("result").textContent =
                 "No recommendation available.";
 
         }
+
+
+        // Get actual assessment data
+
+        const sprint =
+            localStorage.getItem("fitnessSprint");
+
+        const pushups =
+            localStorage.getItem("fitnessPushups");
+
+        const jump =
+            localStorage.getItem("fitnessJump");
+
+        const endurance =
+            localStorage.getItem("fitnessEndurance");
+
+
+        // Display assessment data
+
+        if (sprint) {
+
+            document.getElementById("sprintResult").textContent =
+                sprint;
+
+        }
+
+        if (pushups) {
+
+            document.getElementById("pushupResult").textContent =
+                pushups;
+
+        }
+
+        if (jump) {
+
+            document.getElementById("jumpResult").textContent =
+                jump;
+
+        }
+
+        if (endurance) {
+
+            document.getElementById("enduranceResult").textContent =
+                endurance;
+
+        }
+
     </script>
 
 </body>
+
 </html>

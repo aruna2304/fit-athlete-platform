@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,27 +23,49 @@
             <h1>My Progress</h1>
 
             <p>
-                Track your fitness journey and see how you improve over time.
+                Track your fitness assessment and monitor
+                your athletic development.
             </p>
 
             <div class="hero-card">
 
-                <h2>📊 Fitness Progress</h2>
+                <h2>📊 Latest Fitness Assessment</h2>
 
-                <p><strong>Speed:</strong> Improving</p>
-                <p><strong>Strength:</strong> Good</p>
-                <p><strong>Endurance:</strong> Improving</p>
-                <p><strong>Jump Power:</strong> Good</p>
+                <br>
+
+                <p>
+                    <strong>100m Sprint:</strong>
+                    <span id="sprintValue">-</span> seconds
+                </p>
+
+                <p>
+                    <strong>Push-ups:</strong>
+                    <span id="pushupValue">-</span> repetitions
+                </p>
+
+                <p>
+                    <strong>Vertical Jump:</strong>
+                    <span id="jumpValue">-</span> cm
+                </p>
+
+                <p>
+                    <strong>Endurance:</strong>
+                    <span id="enduranceValue">-</span> minutes
+                </p>
 
                 <br>
 
                 <h2>🎯 Current Goal</h2>
 
-                <p>Improve overall fitness and sports performance.</p>
+                <p>
+                    Improve overall fitness and sports performance.
+                </p>
 
                 <br>
 
-                <a href="plan.html" class="btn">View Development Plan</a>
+                <a href="plan.html" class="btn">
+                    View Development Plan
+                </a>
 
             </div>
 
@@ -50,5 +73,44 @@
 
     </main>
 
+
+    <script>
+
+        const sprint =
+            localStorage.getItem("fitnessSprint");
+
+        const pushups =
+            localStorage.getItem("fitnessPushups");
+
+        const jump =
+            localStorage.getItem("fitnessJump");
+
+        const endurance =
+            localStorage.getItem("fitnessEndurance");
+
+
+        if (sprint) {
+            document.getElementById("sprintValue").textContent =
+                sprint;
+        }
+
+        if (pushups) {
+            document.getElementById("pushupValue").textContent =
+                pushups;
+        }
+
+        if (jump) {
+            document.getElementById("jumpValue").textContent =
+                jump;
+        }
+
+        if (endurance) {
+            document.getElementById("enduranceValue").textContent =
+                endurance;
+        }
+
+    </script>
+
 </body>
+
 </html>

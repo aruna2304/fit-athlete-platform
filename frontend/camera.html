@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FITFORGE - Camera Fitness Test</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">FITFORGE</div>
+    </header>
+
+    <main class="hero">
+
+        <div class="hero-text">
+
+            <h1>Camera Fitness Test</h1>
+
+            <p>
+                Use your camera to perform a push-up test.
+                FITFORGE uses AI pose detection to analyze
+                your movement and count repetitions.
+            </p>
+
+            <div class="hero-card">
+
+                <video
+                    id="camera"
+                    width="100%"
+                    autoplay
+                    playsinline>
+                </video>
+
+                <br><br>
+
+                <button class="btn" onclick="startCamera()">
+                    📷 Start Camera
+                </button>
+
+                <br><br>
+
+                <h2 id="status">
+                    Camera not started
+                </h2>
+
+                <p>
+                    📌 Stand sideways to the camera and keep your
+                    shoulder, elbow and wrist visible.
+                </p>
+
+                <br>
+
+                <p>
+                    Push-up Count:
+                    <strong id="count">0</strong>
+                </p>
+
+                <br>
+
+                <button class="btn" onclick="useCameraResult()">
+                    ✅ Use This Result
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- MediaPipe AI Libraries -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+
+    <script>
+
+        const video = document.getElementById("camera");
+
+        const statusText = document.getElementById("status");
+
+        const countText = document.getElementById("count");
+
+
+        // Push-up variables
+
+        let pushupCount = 0;
+
+        let position = "up";
+
+
+        // Calculate angle between three body points
+
+        function calculateAngle(a, b, c) {
+
+            const radians =
+                Math.atan2(c.y - b.y, c.x - b.x) -
+                Math.atan2(a.y - b.y, a.x - b.x);
+
+            let angle =
+                Math.abs(radians * 180.0 / Math.PI);
+
+            if (angle > 180) {
+                angle = 360 - angle;
+            }
+
+            return angle;
+        }
+
+
+        // Create MediaPipe Pose detector
+
+        const pose = new Pose({
+
+            locateFile: (file) => {
+
+                return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+
+            }
+
+        });
+
+
+        // Configure AI pose detection
+
+        pose.setOptions({
+
+            modelComplexity: 1,
+
+            smoothLandmarks: true,
+
+            enableSegmentation: false,
+
+            minDetectionConfidence: 0.5,
+
+            minTrackingConfidence: 0.5
+
+        });
+
+
+        // Analyze every camera frame
+
+        pose.onResults((results) => {
+
+            if (!results.poseLandmarks) {
+
+                statusText.textContent =
+                    "Move into the camera view.";
+
+                return;
+            }
+
+
+            // Get body landmarks
+
+            const landmarks = results.poseLandmarks;
+
+
+            // Right side body points
+
+            const shoulder = landmarks[11];
+
+            const elbow = landmarks[13];
+
+            const wrist = landmarks[15];
+
+
+            // Calculate elbow angle
+
+            const elbowAngle =
+                calculateAngle(
+                    shoulder,
+                    elbow,
+                    wrist
+                );
+
+
+            // Push-up DOWN position
+
+            if (
+                elbowAngle < 90 &&
+                position === "up"
+            ) {
+
+                position = "down";
+
+            }
+
+
+            // Push-up UP position
+
+            if (
+                elbowAngle > 160 &&
+                position === "down"
+            ) {
+
+                pushupCount++;
+
+                position = "up";
+
+                countText.textContent =
+                    pushupCount;
+
+
+                // Save camera result
+
+                localStorage.setItem(
+                    "cameraPushups",
+                    pushupCount
+                );
+
+            }
+
+
+            statusText.textContent =
+                "AI is analyzing your push-up movement.";
+
+        });
+
+
+        // Start camera
+
+        async function startCamera() {
+
+            try {
+
+                const stream =
+                    await navigator.mediaDevices.getUserMedia({
+
+                        video: true
+
+                    });
+
+
+                video.srcObject = stream;
+
+
+                video.onloadedmetadata = () => {
+
+                    const camera =
+                        new Camera(video, {
+
+                            onFrame: async () => {
+
+                                await pose.send({
+                                    image: video
+                                });
+
+                            },
+
+                            width: 640,
+
+                            height: 480
+
+                        });
+
+
+                    camera.start();
+
+                };
+
+
+                statusText.textContent =
+                    "Starting AI body detection...";
+
+
+            } catch (error) {
+
+                statusText.textContent =
+                    "Camera access was denied or unavailable.";
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        // Use camera result
+
+        function useCameraResult() {
+
+            if (pushupCount === 0) {
+
+                alert(
+                    "Please complete at least one push-up first."
+                );
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "cameraPushups",
+                pushupCount
+            );
+
+
+            window.location.href =
+                "assessment.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

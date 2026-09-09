@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>FITFORGE - Fitness Assessment</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,7 +17,9 @@
     </header>
 
     <main class="hero">
+
         <div class="hero-text">
+
             <h1>Fitness Assessment</h1>
 
             <p>
@@ -24,24 +29,77 @@
 
             <div class="assessment-form">
 
-    <label>100m Sprint Time (seconds)</label>
-    <input type="number" id="sprint" placeholder="Example: 15">
+                <label>100m Sprint Time (seconds)</label>
+                <input
+                    type="number"
+                    id="sprint"
+                    placeholder="Example: 15"
+                >
 
-    <label>Push-ups (repetitions)</label>
-    <input type="number" id="pushups" placeholder="Example: 20">
+                <label>Push-ups (repetitions)</label>
+                <input
+                    type="number"
+                    id="pushups"
+                    placeholder="Example: 20"
+                >
 
-    <label>Vertical Jump (cm)</label>
-    <input type="number" id="jump" placeholder="Example: 40">
+                <label>Vertical Jump (cm)</label>
+                <input
+                    type="number"
+                    id="jump"
+                    placeholder="Example: 40"
+                >
 
-    <label>Endurance Run (minutes)</label>
-    <input type="number" id="endurance" placeholder="Example: 10">
+                <label>Endurance Run (minutes)</label>
+                <input
+                    type="number"
+                    id="endurance"
+                    placeholder="Example: 10"
+                >
 
-    <button class="btn" onclick="calculateResult()">Analyze My Potential</button>
+                <button
+                    class="btn"
+                    onclick="calculateResult()">
+                    Analyze My Potential
+                </button>
 
-</div>
+                <br><br>
+
+                <a href="camera.html" class="btn">
+                    📷 Analyze Push-ups Using Camera
+                </a>
+
+                <p id="cameraResult"></p>
+
+            </div>
+
         </div>
+
     </main>
+
     <script src="script.js"></script>
 
+    <script>
+
+        // Get push-up count from camera test
+
+        const cameraPushups =
+            localStorage.getItem("cameraPushups");
+
+        if (cameraPushups !== null) {
+
+            document.getElementById("pushups").value =
+                cameraPushups;
+
+            document.getElementById("cameraResult").textContent =
+                "📷 Camera detected " +
+                cameraPushups +
+                " push-ups.";
+
+        }
+
+    </script>
+
 </body>
+
 </html>
