@@ -12,27 +12,38 @@ function calculateResult() {
         return;
     }
 
-    let sports = [];
+    // Convert fitness results into scores
+    const speedScore = Math.min(100, Math.max(0, (18 - sprint) * 10));
+    const strengthScore = Math.min(100, pushups * 3);
+    const powerScore = Math.min(100, jump * 2);
+    const enduranceScore = Math.min(100, endurance * 6);
 
-    if (sprint <= 14) {
-        sports.push("Athletics");
-    }
+    // Sport scores
+    const athletics = Math.round(
+        speedScore * 0.4 +
+        powerScore * 0.3 +
+        enduranceScore * 0.3
+    );
 
-    if (jump >= 40) {
-        sports.push("Basketball");
-    }
+    const football = Math.round(
+        speedScore * 0.3 +
+        strengthScore * 0.3 +
+        enduranceScore * 0.4
+    );
 
-    if (pushups >= 20) {
-        sports.push("Football");
-    }
+    const basketball = Math.round(
+        powerScore * 0.5 +
+        speedScore * 0.3 +
+        strengthScore * 0.2
+    );
 
-    if (endurance >= 10) {
-        sports.push("Long-distance Running");
-    }
+    const sports = [
+        `Athletics - ${athletics}%`,
+        `Football - ${football}%`,
+        `Basketball - ${basketball}%`
+    ];
 
-    if (sports.length === 0) {
-        sports.push("General Fitness");
-    }
-    window.location.href = "result.html?sports=" + encodeURIComponent(sports.join(", "));
-    
+    window.location.href =
+        "result.html?sports=" +
+        encodeURIComponent(sports.join(", "));
 }

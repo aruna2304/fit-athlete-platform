@@ -22,27 +22,46 @@
             <h1>Your FITFORGE Analysis</h1>
 
             <p>
-                Based on your fitness assessment, here are the
-                sports that match your current strengths.
+                Based on your fitness assessment, FITFORGE has identified
+                the sports that best match your current strengths.
             </p>
 
             <div class="hero-card">
 
                 <h2>🏆 Recommended Sports</h2>
 
-                <p id="result">Loading your recommendations...</p>
+                <div id="result">
+                    Loading your recommendations...
+                </div>
 
                 <br>
 
-                <h2>💪 Your Strengths</h2>
+                <h2>💪 Your Strength Profile</h2>
 
-                <p>Speed • Strength • Explosive Power</p>
+                <p>
+                    Your assessment evaluates four important areas:
+                </p>
+
+                <p>⚡ Speed</p>
+                <p>💪 Strength</p>
+                <p>🚀 Explosive Power</p>
+                <p>🏃 Endurance</p>
 
                 <br>
 
-                <h2>🎯 Focus Areas</h2>
+                <h2>🎯 What Next?</h2>
 
-                <p>Endurance • Flexibility • Consistency</p>
+                <p>
+                    Follow your personalized development plan,
+                    track your progress and connect with coaches
+                    and sports facilities.
+                </p>
+
+                <br>
+
+                <a href="plan.html" class="btn">
+                    View My Development Plan
+                </a>
 
             </div>
 
@@ -54,8 +73,37 @@
         const params = new URLSearchParams(window.location.search);
         const sports = params.get("sports");
 
-        document.getElementById("result").textContent =
-            sports || "No recommendation available.";
+        if (sports) {
+
+            const sportList = sports.split(", ");
+
+            document.getElementById("result").innerHTML =
+                sportList.map((sport, index) => {
+
+                    let icon = "🏅";
+
+                    if (sport.startsWith("Athletics")) {
+                        icon = "🏃";
+                    } else if (sport.startsWith("Football")) {
+                        icon = "⚽";
+                    } else if (sport.startsWith("Basketball")) {
+                        icon = "🏀";
+                    }
+
+                    return `
+                        <div class="sport-result">
+                            <span>${icon} ${sport}</span>
+                        </div>
+                    `;
+
+                }).join("");
+
+        } else {
+
+            document.getElementById("result").textContent =
+                "No recommendation available.";
+
+        }
     </script>
 
 </body>
