@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,41 +16,74 @@
         <div class="logo">FITFORGE</div>
     </header>
 
+
     <main class="hero">
 
         <div class="hero-text">
 
-            <h1>Your Development Plan</h1>
+            <h1 id="planTitle">Your Development Plan</h1>
 
             <p>
-                Here is a simple training plan based on your
-                fitness assessment.
+                Your training recommendations are based on
+                your latest fitness assessment.
             </p>
+
 
             <div class="hero-card">
 
-                <h2>🏃 Week 1</h2>
-                <p>• 15 minutes endurance training</p>
-                <p>• 3 sets of strength exercises</p>
-                <p>• 10 minutes stretching</p>
+                <h2>🎯 Your Training Focus</h2>
+
+                <p id="focusMessage">
+                    Loading your personalized plan...
+                </p>
 
                 <br>
 
-                <h2>💪 Week 2</h2>
-                <p>• Improve running speed</p>
-                <p>• Increase strength repetitions</p>
-                <p>• Practice sport-specific movements</p>
+
+                <h2>🏃 Recommended Exercises</h2>
+
+                <div id="exercisePlan">
+                    Loading exercises...
+                </div>
+
 
                 <br>
 
-                <h2>🎯 Goal</h2>
-                <p>Build fitness, consistency and sporting skills.</p>
+
+                <h2>📅 Weekly Routine</h2>
+
+                <p>• 15 minutes warm-up</p>
+
+                <p>• 20 minutes focused training</p>
+
+                <p>• 10 minutes strength exercises</p>
+
+                <p>• 10 minutes stretching and recovery</p>
+
+
                 <br>
 
-<a href="progress.html" class="btn">Track My Progress</a>
-<br><br>
 
-<a href="coach.html" class="btn">Find Coaches & Facilities</a>
+                <h2>💡 Training Tip</h2>
+
+                <p id="trainingTip">
+                    Stay consistent and gradually improve
+                    your performance.
+                </p>
+
+
+                <br><br>
+
+
+                <a href="progress.html" class="btn">
+                    📊 Track My Progress
+                </a>
+
+                <br><br>
+
+                <a href="coach.html" class="btn">
+                    🏟️ Find Coaches & Facilities
+                </a>
 
             </div>
 
@@ -57,5 +91,230 @@
 
     </main>
 
+
+    <script>
+
+        // ==============================
+        // ATHLETE NAME
+        // ==============================
+
+        const athleteName =
+            localStorage.getItem("athleteName");
+
+
+        if (athleteName) {
+
+            document.getElementById("planTitle").textContent =
+                athleteName + "'s Development Plan";
+
+        }
+
+
+        // ==============================
+        // GET FITNESS RESULTS
+        // ==============================
+
+        const sprint =
+            Number(localStorage.getItem("fitnessSprint"));
+
+        const pushups =
+            Number(localStorage.getItem("fitnessPushups"));
+
+        const jump =
+            Number(localStorage.getItem("fitnessJump"));
+
+        const endurance =
+            Number(localStorage.getItem("fitnessEndurance"));
+
+
+
+        // ==============================
+        // CALCULATE FITNESS SCORES
+        // ==============================
+
+        const speedScore =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    (18 - sprint) * 10
+                )
+            );
+
+
+        const strengthScore =
+            Math.min(
+                100,
+                pushups * 3
+            );
+
+
+        const powerScore =
+            Math.min(
+                100,
+                jump * 2
+            );
+
+
+        const enduranceScore =
+            Math.min(
+                100,
+                endurance * 6
+            );
+
+
+
+        // ==============================
+        // FIND WEAK AREAS
+        // ==============================
+
+        const areas = [
+
+            {
+                name: "Speed",
+                score: speedScore
+            },
+
+            {
+                name: "Strength",
+                score: strengthScore
+            },
+
+            {
+                name: "Power",
+                score: powerScore
+            },
+
+            {
+                name: "Endurance",
+                score: enduranceScore
+            }
+
+        ];
+
+
+        areas.sort(
+            (a, b) => a.score - b.score
+        );
+
+
+        const weakest =
+            areas.slice(0, 2);
+
+
+
+        // ==============================
+        // DISPLAY FOCUS
+        // ==============================
+
+        document.getElementById("focusMessage").textContent =
+
+            "Your main development areas are " +
+            weakest[0].name +
+            " and " +
+            weakest[1].name +
+            ".";
+
+
+
+        // ==============================
+        // EXERCISE RECOMMENDATIONS
+        // ==============================
+
+        let exercises = [];
+
+
+        weakest.forEach((area) => {
+
+            if (area.name === "Speed") {
+
+                exercises.push(
+                    "⚡ Sprint intervals – 4 × 50m",
+                    "🏃 Short acceleration drills",
+                    "🔄 Agility ladder practice"
+                );
+
+            }
+
+
+            if (area.name === "Strength") {
+
+                exercises.push(
+                    "💪 Push-ups – 3 sets",
+                    "🦵 Bodyweight squats – 3 sets",
+                    "🏋️ Core strengthening exercises"
+                );
+
+            }
+
+
+            if (area.name === "Power") {
+
+                exercises.push(
+                    "🚀 Squat jumps – 3 sets",
+                    "⬆️ Vertical jump practice",
+                    "💥 Explosive movement drills"
+                );
+
+            }
+
+
+            if (area.name === "Endurance") {
+
+                exercises.push(
+                    "🏃 Continuous running – 15 minutes",
+                    "🔄 Interval running",
+                    "❤️ Aerobic conditioning"
+                );
+
+            }
+
+        });
+
+
+
+        document.getElementById("exercisePlan").innerHTML =
+
+            exercises.map(
+                exercise => `<p>${exercise}</p>`
+            ).join("");
+
+
+
+        // ==============================
+        // TRAINING TIP
+        // ==============================
+
+        if (weakest[0].name === "Endurance") {
+
+            document.getElementById("trainingTip").textContent =
+                "Build endurance gradually. Increase training duration step by step.";
+
+        }
+
+        else if (weakest[0].name === "Strength") {
+
+            document.getElementById("trainingTip").textContent =
+                "Focus on controlled movements and gradually increase repetitions.";
+
+        }
+
+        else if (weakest[0].name === "Speed") {
+
+            document.getElementById("trainingTip").textContent =
+                "Focus on short, explosive movements and proper recovery.";
+
+        }
+
+        else {
+
+            document.getElementById("trainingTip").textContent =
+                "Focus on explosive movements and proper technique.";
+
+        }
+
+    </script>
+
 </body>
+
 </html>

@@ -25,7 +25,8 @@
             <p>
                 Use your camera to perform a push-up test.
                 FITFORGE uses AI pose detection to analyze
-                your movement and count repetitions.
+                your movement, count repetitions and provide
+                basic posture feedback.
             </p>
 
             <div class="hero-card">
@@ -51,7 +52,7 @@
 
                 <p>
                     📌 Stand sideways to the camera and keep your
-                    shoulder, elbow and wrist visible.
+                    shoulder, elbow, wrist, hip and ankle visible.
                 </p>
 
                 <br>
@@ -59,6 +60,21 @@
                 <p>
                     Push-up Count:
                     <strong id="count">0</strong>
+                </p>
+
+                <br>
+
+                <!-- POSTURE FEEDBACK -->
+
+                <p>
+                    <strong>Posture Check:</strong>
+                    <span id="posture">
+                        Waiting for camera...
+                    </span>
+                </p>
+
+                <p id="postureTip">
+                    Keep your shoulder, hip and ankle aligned.
                 </p>
 
                 <br>
@@ -83,11 +99,20 @@
 
     <script>
 
-        const video = document.getElementById("camera");
+        const video =
+            document.getElementById("camera");
 
-        const statusText = document.getElementById("status");
+        const statusText =
+            document.getElementById("status");
 
-        const countText = document.getElementById("count");
+        const countText =
+            document.getElementById("count");
+
+        const postureText =
+            document.getElementById("posture");
+
+        const postureTip =
+            document.getElementById("postureTip");
 
 
         // Push-up variables
@@ -106,7 +131,9 @@
                 Math.atan2(a.y - b.y, a.x - b.x);
 
             let angle =
-                Math.abs(radians * 180.0 / Math.PI);
+                Math.abs(
+                    radians * 180.0 / Math.PI
+                );
 
             if (angle > 180) {
                 angle = 360 - angle;
@@ -155,22 +182,41 @@
                 statusText.textContent =
                     "Move into the camera view.";
 
+                postureText.textContent =
+                    "⚠️ Body not detected";
+
+                postureTip.textContent =
+                    "Make sure your full body is visible.";
+
                 return;
             }
 
 
             // Get body landmarks
 
-            const landmarks = results.poseLandmarks;
+            const landmarks =
+                results.poseLandmarks;
 
 
             // Right side body points
 
-            const shoulder = landmarks[11];
+            const shoulder =
+                landmarks[11];
 
-            const elbow = landmarks[13];
+            const elbow =
+                landmarks[13];
 
-            const wrist = landmarks[15];
+            const wrist =
+                landmarks[15];
+
+
+            // Additional points for posture
+
+            const hip =
+                landmarks[23];
+
+            const ankle =
+                landmarks[27];
 
 
             // Calculate elbow angle
@@ -182,6 +228,10 @@
                     wrist
                 );
 
+
+            // ------------------------------------------------
+            // PUSH-UP COUNTER
+            // ------------------------------------------------
 
             // Push-up DOWN position
 
@@ -220,6 +270,72 @@
             }
 
 
+            // ------------------------------------------------
+            // POSTURE CHECK
+            // ------------------------------------------------
+
+            const bodyVisible =
+                shoulder.visibility > 0.6 &&
+                hip.visibility > 0.6 &&
+                ankle.visibility > 0.6;
+
+
+            if (!bodyVisible) {
+
+                postureText.textContent =
+                    "⚠️ Body not clearly visible";
+
+                postureTip.textContent =
+                    "Keep your shoulder, hip and ankle visible.";
+
+            }
+
+            else {
+
+                /*
+                    Basic posture feedback.
+
+                    This is separate from the push-up counter,
+                    so posture feedback will NOT stop counting.
+                */
+
+                const shoulderHipDifference =
+                    Math.abs(
+                        shoulder.y - hip.y
+                    );
+
+                const hipAnkleDifference =
+                    Math.abs(
+                        hip.y - ankle.y
+                    );
+
+
+                if (
+                    shoulderHipDifference > 0.10 &&
+                    hipAnkleDifference > 0.15
+                ) {
+
+                    postureText.textContent =
+                        "⚠️ Check your alignment";
+
+                    postureTip.textContent =
+                        "Try to keep your body straight and controlled.";
+
+                }
+
+                else {
+
+                    postureText.textContent =
+                        "✅ Good posture";
+
+                    postureTip.textContent =
+                        "Keep your body straight and controlled.";
+
+                }
+
+            }
+
+
             statusText.textContent =
                 "AI is analyzing your push-up movement.";
 
@@ -240,7 +356,8 @@
                     });
 
 
-                video.srcObject = stream;
+                video.srcObject =
+                    stream;
 
 
                 video.onloadedmetadata = () => {
@@ -251,7 +368,9 @@
                             onFrame: async () => {
 
                                 await pose.send({
+
                                     image: video
+
                                 });
 
                             },
@@ -272,7 +391,9 @@
                     "Starting AI body detection...";
 
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
                 statusText.textContent =
                     "Camera access was denied or unavailable.";
@@ -295,6 +416,7 @@
                 );
 
                 return;
+
             }
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,43 +13,442 @@
 <body>
 
     <header>
+
         <div class="logo">FITFORGE</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
     </header>
+
 
     <main class="hero">
 
         <div class="hero-text">
 
-            <h1>Find Your Opportunity</h1>
+            <h1 id="opportunityTitle">
+                Find Your Opportunity
+            </h1>
 
             <p>
                 Connect with coaches and sports facilities
                 to continue your athletic journey.
             </p>
 
+
+            <!-- ==============================
+                 RECOMMENDED OPPORTUNITY
+            =============================== -->
+
             <div class="hero-card">
 
-                <h2>🏃 Athletics Coach</h2>
-                <p>Specialization: Sprint & Speed Training</p>
-                <p>Experience: Grassroots Development</p>
+                <h2>🎯 Your Recommended Opportunity</h2>
 
                 <br>
 
-                <h2>⚽ Football Coach</h2>
-                <p>Specialization: Youth Football</p>
-                <p>Experience: Community Training</p>
-
-                <br>
-
-                <h2>🏀 Basketball Facility</h2>
-                <p>Indoor court available</p>
-                <p>Suitable for youth training</p>
+                <p id="recommendedMessage">
+                    Complete your fitness assessment to receive
+                    a personalized sports opportunity.
+                </p>
 
             </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 SEARCH / FILTER
+            =============================== -->
+
+            <div class="assessment-form">
+
+                <label>Select Sport</label>
+
+                <select
+                    id="sportFilter"
+                    onchange="filterOpportunities()">
+
+                    <option value="all">
+                        All Sports
+                    </option>
+
+                    <option value="athletics">
+                        🏃 Athletics
+                    </option>
+
+                    <option value="football">
+                        ⚽ Football
+                    </option>
+
+                    <option value="basketball">
+                        🏀 Basketball
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 OPPORTUNITY CARDS
+            =============================== -->
+
+            <div id="opportunityContainer">
+
+
+                <!-- ATHLETICS -->
+
+                <div
+                    class="hero-card opportunity-card"
+                    data-sport="athletics">
+
+                    <h2>🏃 Athletics Coach</h2>
+
+                    <p>
+                        <strong>Specialization:</strong>
+                        Sprint & Speed Training
+                    </p>
+
+                    <p>
+                        <strong>Experience:</strong>
+                        Grassroots Development
+                    </p>
+
+                    <p>
+                        ⭐ Rating: 4.8 / 5
+                    </p>
+
+                    <p>
+                        📍 Location: Chennai
+                    </p>
+
+                    <p>
+                        🟢 Availability: Available
+                    </p>
+
+                    <br>
+
+                    <button
+                        class="btn"
+                        onclick="showDetails('Athletics Coach')">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+
+                <br>
+
+
+                <!-- FOOTBALL -->
+
+                <div
+                    class="hero-card opportunity-card"
+                    data-sport="football">
+
+                    <h2>⚽ Football Coach</h2>
+
+                    <p>
+                        <strong>Specialization:</strong>
+                        Youth Football
+                    </p>
+
+                    <p>
+                        <strong>Experience:</strong>
+                        Community Training
+                    </p>
+
+                    <p>
+                        ⭐ Rating: 4.6 / 5
+                    </p>
+
+                    <p>
+                        📍 Location: Chennai
+                    </p>
+
+                    <p>
+                        🟢 Availability: Available
+                    </p>
+
+                    <br>
+
+                    <button
+                        class="btn"
+                        onclick="showDetails('Football Coach')">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+
+                <br>
+
+
+                <!-- BASKETBALL -->
+
+                <div
+                    class="hero-card opportunity-card"
+                    data-sport="basketball">
+
+                    <h2>🏀 Basketball Facility</h2>
+
+                    <p>
+                        <strong>Type:</strong>
+                        Indoor Sports Facility
+                    </p>
+
+                    <p>
+                        <strong>Facility:</strong>
+                        Full-size Indoor Court
+                    </p>
+
+                    <p>
+                        ⭐ Rating: 4.7 / 5
+                    </p>
+
+                    <p>
+                        📍 Location: Chennai
+                    </p>
+
+                    <p>
+                        🟢 Availability: Available
+                    </p>
+
+                    <br>
+
+                    <button
+                        class="btn"
+                        onclick="showDetails('Basketball Facility')">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 INFORMATION
+            =============================== -->
+
+            <div class="hero-card">
+
+                <h2>🌱 Why This Matters</h2>
+
+                <p>
+                    FITFORGE helps young athletes move from
+                    fitness assessment to real sporting
+                    opportunities by connecting them with
+                    coaches and training facilities.
+                </p>
+
+                <br>
+
+                <p>
+                    💡 The opportunities shown here are
+                    demonstration data for the prototype.
+                    The platform can later connect to real
+                    coaches and facilities.
+                </p>
+
+            </div>
+
 
         </div>
 
     </main>
 
+
+    <script>
+
+
+        // ==============================
+        // ATHLETE NAME
+        // ==============================
+
+        const athleteName =
+            localStorage.getItem("athleteName");
+
+
+        if (athleteName) {
+
+            document.getElementById(
+                "opportunityTitle"
+            ).textContent =
+                athleteName + "'s Opportunities";
+
+        }
+
+
+        // ==============================
+        // GET RECOMMENDED SPORT
+        // ==============================
+
+        const savedSports =
+            JSON.parse(
+                localStorage.getItem("recommendedSports")
+            );
+
+
+        if (
+            savedSports &&
+            savedSports.length > 0
+        ) {
+
+            // First sport = highest recommendation
+            const topSport =
+                savedSports[0];
+
+
+            let recommendedSport =
+                "";
+
+
+            if (
+                topSport.startsWith("Athletics")
+            ) {
+
+                recommendedSport =
+                    "athletics";
+
+            }
+
+            else if (
+                topSport.startsWith("Football")
+            ) {
+
+                recommendedSport =
+                    "football";
+
+            }
+
+            else if (
+                topSport.startsWith("Basketball")
+            ) {
+
+                recommendedSport =
+                    "basketball";
+
+            }
+
+
+            // Display recommendation
+
+            const displayName =
+                topSport.split(" - ")[0];
+
+
+            document.getElementById(
+                "recommendedMessage"
+            ).textContent =
+                "Based on your fitness assessment, " +
+                displayName +
+                " is your top recommended sport. " +
+                "Explore suitable coaches and facilities below.";
+
+
+            // Automatically select recommended sport
+
+            if (recommendedSport) {
+
+                document.getElementById(
+                    "sportFilter"
+                ).value =
+                    recommendedSport;
+
+
+                filterOpportunities();
+
+            }
+
+        }
+
+
+        // ==============================
+        // FILTER OPPORTUNITIES
+        // ==============================
+
+        function filterOpportunities() {
+
+            const selectedSport =
+                document.getElementById(
+                    "sportFilter"
+                ).value;
+
+
+            const cards =
+                document.querySelectorAll(
+                    ".opportunity-card"
+                );
+
+
+            cards.forEach((card) => {
+
+                const sport =
+                    card.getAttribute(
+                        "data-sport"
+                    );
+
+
+                if (
+                    selectedSport === "all" ||
+                    sport === selectedSport
+                ) {
+
+                    card.style.display =
+                        "block";
+
+                }
+
+                else {
+
+                    card.style.display =
+                        "none";
+
+                }
+
+            });
+
+        }
+
+
+        // ==============================
+        // VIEW DETAILS
+        // ==============================
+
+        function showDetails(name) {
+
+            alert(
+                "🏟️ " +
+                name +
+                "\n\n" +
+                "This opportunity is currently available for demonstration.\n\n" +
+                "FITFORGE can later connect athletes with real coaches and facilities."
+            );
+
+        }
+
+    </script>
+
+
 </body>
+
 </html>

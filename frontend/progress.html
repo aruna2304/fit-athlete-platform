@@ -16,16 +16,22 @@
         <div class="logo">FITFORGE</div>
     </header>
 
+
     <main class="hero">
 
         <div class="hero-text">
 
-            <h1>My Progress</h1>
+            <h1 id="progressTitle">My Progress</h1>
 
             <p>
-                Track your fitness assessment and monitor
-                your athletic development.
+                Track your fitness development and monitor
+                how your performance improves over time.
             </p>
+
+
+            <!-- ==============================
+                 LATEST ASSESSMENT
+            =============================== -->
 
             <div class="hero-card">
 
@@ -53,7 +59,101 @@
                     <span id="enduranceValue">-</span> minutes
                 </p>
 
+            </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 PROGRESS COMPARISON
+            =============================== -->
+
+            <div class="hero-card">
+
+                <h2>📈 Progress Comparison</h2>
+
                 <br>
+
+                <p>
+                    ⚡ Sprint:
+                    <strong id="sprintProgress">
+                        No previous data
+                    </strong>
+                </p>
+
+                <p>
+                    💪 Push-ups:
+                    <strong id="pushupProgress">
+                        No previous data
+                    </strong>
+                </p>
+
+                <p>
+                    🚀 Vertical Jump:
+                    <strong id="jumpProgress">
+                        No previous data
+                    </strong>
+                </p>
+
+                <p>
+                    🏃 Endurance:
+                    <strong id="enduranceProgress">
+                        No previous data
+                    </strong>
+                </p>
+
+                <br>
+
+                <h2>🎯 Development Status</h2>
+
+                <p id="developmentStatus">
+                    Complete another assessment to measure improvement.
+                </p>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 ACHIEVEMENTS
+            =============================== -->
+
+            <div class="hero-card">
+
+                <h2>🏆 Achievements</h2>
+
+                <br>
+
+                <p id="firstAssessmentBadge">
+                    🔒 First Assessment
+                </p>
+
+                <p id="pushupBadge">
+                    🔒 Push-up Starter
+                </p>
+
+                <p id="progressBadge">
+                    🔒 Improving Athlete
+                </p>
+
+                <p id="allRounderBadge">
+                    🔒 All-Rounder
+                </p>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- ==============================
+                 CURRENT GOAL
+            =============================== -->
+
+            <div class="hero-card">
 
                 <h2>🎯 Current Goal</h2>
 
@@ -67,6 +167,12 @@
                     View Development Plan
                 </a>
 
+                <br><br>
+
+                <a href="assessment.html" class="btn">
+                    Take New Assessment
+                </a>
+
             </div>
 
         </div>
@@ -76,37 +182,354 @@
 
     <script>
 
+
+        // ==============================
+        // ATHLETE NAME
+        // ==============================
+
+        const athleteName =
+            localStorage.getItem("athleteName");
+
+
+        if (athleteName) {
+
+            document.getElementById("progressTitle").textContent =
+                athleteName + "'s Progress";
+
+        }
+
+
+        // ==============================
+        // GET LATEST RESULTS
+        // ==============================
+
         const sprint =
-            localStorage.getItem("fitnessSprint");
+            Number(localStorage.getItem("fitnessSprint"));
 
         const pushups =
-            localStorage.getItem("fitnessPushups");
+            Number(localStorage.getItem("fitnessPushups"));
 
         const jump =
-            localStorage.getItem("fitnessJump");
+            Number(localStorage.getItem("fitnessJump"));
 
         const endurance =
-            localStorage.getItem("fitnessEndurance");
+            Number(localStorage.getItem("fitnessEndurance"));
 
+
+        // ==============================
+        // DISPLAY LATEST RESULTS
+        // ==============================
 
         if (sprint) {
+
             document.getElementById("sprintValue").textContent =
                 sprint;
+
         }
+
 
         if (pushups) {
+
             document.getElementById("pushupValue").textContent =
                 pushups;
+
         }
+
 
         if (jump) {
+
             document.getElementById("jumpValue").textContent =
                 jump;
+
         }
 
+
         if (endurance) {
+
             document.getElementById("enduranceValue").textContent =
                 endurance;
+
+        }
+
+
+        // ==============================
+        // SAVE FIRST ASSESSMENT
+        // ==============================
+
+        if (
+            sprint &&
+            pushups &&
+            jump &&
+            endurance &&
+            !localStorage.getItem("firstAssessment")
+        ) {
+
+            const firstAssessment = {
+
+                sprint: sprint,
+
+                pushups: pushups,
+
+                jump: jump,
+
+                endurance: endurance
+
+            };
+
+
+            localStorage.setItem(
+                "firstAssessment",
+                JSON.stringify(firstAssessment)
+            );
+
+        }
+
+
+        // ==============================
+        // GET FIRST ASSESSMENT
+        // ==============================
+
+        const firstData =
+            JSON.parse(
+                localStorage.getItem("firstAssessment")
+            );
+
+
+        // ==============================
+        // CALCULATE IMPROVEMENT
+        // ==============================
+
+        let improvedAreas = 0;
+
+
+        if (firstData) {
+
+
+            // ==============================
+            // SPRINT
+            // Lower time = better
+            // ==============================
+
+            const sprintDifference =
+                firstData.sprint - sprint;
+
+
+            if (sprintDifference > 0) {
+
+                document.getElementById("sprintProgress").textContent =
+                    "Improved by " +
+                    sprintDifference.toFixed(1) +
+                    " seconds ↑";
+
+                improvedAreas++;
+
+            }
+
+            else if (sprintDifference < 0) {
+
+                document.getElementById("sprintProgress").textContent =
+                    "Needs improvement ↓";
+
+            }
+
+            else {
+
+                document.getElementById("sprintProgress").textContent =
+                    "No change";
+
+            }
+
+
+            // ==============================
+            // PUSH-UPS
+            // ==============================
+
+            const pushupDifference =
+                pushups - firstData.pushups;
+
+
+            if (pushupDifference > 0) {
+
+                document.getElementById("pushupProgress").textContent =
+                    "Improved by " +
+                    pushupDifference +
+                    " repetitions ↑";
+
+                improvedAreas++;
+
+            }
+
+            else if (pushupDifference < 0) {
+
+                document.getElementById("pushupProgress").textContent =
+                    "Needs improvement ↓";
+
+            }
+
+            else {
+
+                document.getElementById("pushupProgress").textContent =
+                    "No change";
+
+            }
+
+
+            // ==============================
+            // VERTICAL JUMP
+            // ==============================
+
+            const jumpDifference =
+                jump - firstData.jump;
+
+
+            if (jumpDifference > 0) {
+
+                document.getElementById("jumpProgress").textContent =
+                    "Improved by " +
+                    jumpDifference +
+                    " cm ↑";
+
+                improvedAreas++;
+
+            }
+
+            else if (jumpDifference < 0) {
+
+                document.getElementById("jumpProgress").textContent =
+                    "Needs improvement ↓";
+
+            }
+
+            else {
+
+                document.getElementById("jumpProgress").textContent =
+                    "No change";
+
+            }
+
+
+            // ==============================
+            // ENDURANCE
+            // ==============================
+
+            const enduranceDifference =
+                endurance - firstData.endurance;
+
+
+            if (enduranceDifference > 0) {
+
+                document.getElementById("enduranceProgress").textContent =
+                    "Improved by " +
+                    enduranceDifference +
+                    " minutes ↑";
+
+                improvedAreas++;
+
+            }
+
+            else if (enduranceDifference < 0) {
+
+                document.getElementById("enduranceProgress").textContent =
+                    "Needs improvement ↓";
+
+            }
+
+            else {
+
+                document.getElementById("enduranceProgress").textContent =
+                    "No change";
+
+            }
+
+
+            // ==============================
+            // OVERALL DEVELOPMENT STATUS
+            // ==============================
+
+            if (improvedAreas >= 3) {
+
+                document.getElementById("developmentStatus").textContent =
+                    "🔥 Excellent progress! You have improved in multiple fitness areas.";
+
+            }
+
+            else if (improvedAreas >= 1) {
+
+                document.getElementById("developmentStatus").textContent =
+                    "📈 You are improving. Keep training consistently.";
+
+            }
+
+            else {
+
+                document.getElementById("developmentStatus").textContent =
+                    "🎯 Continue your training and complete another assessment to track improvement.";
+
+            }
+
+        }
+
+
+        // ==============================
+        // ACHIEVEMENTS
+        // ==============================
+
+
+        // First Assessment
+
+        if (
+            sprint &&
+            pushups &&
+            jump &&
+            endurance
+        ) {
+
+            document.getElementById(
+                "firstAssessmentBadge"
+            ).textContent =
+                "🥇 First Assessment — Unlocked!";
+
+        }
+
+
+        // Push-up Starter
+
+        if (pushups >= 10) {
+
+            document.getElementById(
+                "pushupBadge"
+            ).textContent =
+                "💪 Push-up Starter — Unlocked!";
+
+        }
+
+
+        // Improving Athlete
+
+        if (improvedAreas >= 1) {
+
+            document.getElementById(
+                "progressBadge"
+            ).textContent =
+                "📈 Improving Athlete — Unlocked!";
+
+        }
+
+
+        // All-Rounder
+
+        if (
+            pushups >= 20 &&
+            jump >= 40 &&
+            endurance >= 10 &&
+            sprint <= 15
+        ) {
+
+            document.getElementById(
+                "allRounderBadge"
+            ).textContent =
+                "🏆 All-Rounder — Unlocked!";
+
         }
 
     </script>

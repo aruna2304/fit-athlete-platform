@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FITFORGE - Athlete Profile</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">FITFORGE</div>
+    </header>
+
+    <main class="hero">
+
+        <div class="hero-text">
+
+            <h1>My Athlete Profile</h1>
+
+            <p>
+                Create your FITFORGE athlete profile
+                to personalize your sports development journey.
+            </p>
+
+            <div class="assessment-form">
+
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your name"
+                >
+
+                <label>Age</label>
+                <input
+                    type="number"
+                    id="age"
+                    placeholder="Enter your age"
+                >
+
+                <label>Location</label>
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Example: Chennai"
+                >
+
+                <label>Preferred Sport</label>
+
+                <select id="sport">
+                    <option value="">Select your sport</option>
+                    <option value="Athletics">Athletics</option>
+                    <option value="Football">Football</option>
+                    <option value="Basketball">Basketball</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label>Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                >
+
+                <button
+                    class="btn"
+                    onclick="saveProfile()">
+                    💾 Save Profile
+                </button>
+
+            </div>
+
+            <br>
+
+            <div class="hero-card" id="profileCard" style="display: none;">
+
+                <h2>🏆 My Profile</h2>
+
+                <br>
+
+                <p>
+                    👤 <strong>Name:</strong>
+                    <span id="displayName"></span>
+                </p>
+
+                <p>
+                    🎂 <strong>Age:</strong>
+                    <span id="displayAge"></span>
+                </p>
+
+                <p>
+                    📍 <strong>Location:</strong>
+                    <span id="displayLocation"></span>
+                </p>
+
+                <p>
+                    🏅 <strong>Preferred Sport:</strong>
+                    <span id="displaySport"></span>
+                </p>
+
+                <p>
+                    📧 <strong>Email:</strong>
+                    <span id="displayEmail"></span>
+                </p>
+
+                <br>
+
+                <a href="assessment.html" class="btn">
+                    Start Fitness Assessment
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        function saveProfile() {
+
+            const name =
+                document.getElementById("name").value;
+
+            const age =
+                document.getElementById("age").value;
+
+            const location =
+                document.getElementById("location").value;
+
+            const sport =
+                document.getElementById("sport").value;
+
+            const email =
+                document.getElementById("email").value;
+
+
+            // Check required fields
+
+            if (
+                !name ||
+                !age ||
+                !location ||
+                !sport ||
+                !email
+            ) {
+
+                alert("Please fill in all the details.");
+
+                return;
+            }
+
+
+            // Save profile information
+
+            localStorage.setItem(
+                "athleteName",
+                name
+            );
+
+            localStorage.setItem(
+                "athleteAge",
+                age
+            );
+
+            localStorage.setItem(
+                "athleteLocation",
+                location
+            );
+
+            localStorage.setItem(
+                "athleteSport",
+                sport
+            );
+
+            localStorage.setItem(
+                "athleteEmail",
+                email
+            );
+
+
+            // Display saved profile
+
+            displayProfile();
+
+            alert(
+                "🎉 Athlete profile saved successfully!"
+            );
+
+        }
+
+
+        function displayProfile() {
+
+            const name =
+                localStorage.getItem("athleteName");
+
+            const age =
+                localStorage.getItem("athleteAge");
+
+            const location =
+                localStorage.getItem("athleteLocation");
+
+            const sport =
+                localStorage.getItem("athleteSport");
+
+            const email =
+                localStorage.getItem("athleteEmail");
+
+
+            if (name) {
+
+                document.getElementById("displayName")
+                    .textContent = name;
+
+                document.getElementById("displayAge")
+                    .textContent = age;
+
+                document.getElementById("displayLocation")
+                    .textContent = location;
+
+                document.getElementById("displaySport")
+                    .textContent = sport;
+
+                document.getElementById("displayEmail")
+                    .textContent = email;
+
+
+                document.getElementById("profileCard")
+                    .style.display = "block";
+
+            }
+
+        }
+
+
+        // Load saved profile when page opens
+
+        displayProfile();
+
+    </script>
+
+</body>
+
+</html>

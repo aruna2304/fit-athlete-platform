@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FITFORGE - Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">FITFORGE</div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
+    </header>
+
+
+    <main class="hero">
+
+        <div class="hero-text">
+
+            <h1 id="dashboardTitle">
+                Athlete Dashboard
+            </h1>
+
+            <p>
+                Your complete FITFORGE athletic development
+                overview in one place.
+            </p>
+
+
+            <!-- =========================
+                 ATHLETE PROFILE
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>👤 Athlete Profile</h2>
+
+                <br>
+
+                <p>
+                    <strong>Name:</strong>
+                    <span id="athleteName">-</span>
+                </p>
+
+                <p>
+                    <strong>Age:</strong>
+                    <span id="athleteAge">-</span>
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    <span id="athleteLocation">-</span>
+                </p>
+
+                <p>
+                    <strong>Preferred Sport:</strong>
+                    <span id="athleteSport">-</span>
+                </p>
+
+                <br>
+
+                <a href="profile.html" class="btn">
+                    Edit Profile
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 FITNESS RESULTS
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>📊 Latest Fitness Results</h2>
+
+                <br>
+
+                <p>
+                    ⚡ 100m Sprint:
+                    <strong id="sprint">-</strong> seconds
+                </p>
+
+                <p>
+                    💪 Push-ups:
+                    <strong id="pushups">-</strong>
+                </p>
+
+                <p>
+                    🚀 Vertical Jump:
+                    <strong id="jump">-</strong> cm
+                </p>
+
+                <p>
+                    🏃 Endurance:
+                    <strong id="endurance">-</strong> minutes
+                </p>
+
+                <br>
+
+                <a href="assessment.html" class="btn">
+                    Take Assessment
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 RECOMMENDED SPORTS
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>🏆 Recommended Sports</h2>
+
+                <br>
+
+                <div id="recommendedSports">
+
+                    <p>
+                        Complete your fitness assessment
+                        to see recommendations.
+                    </p>
+
+                </div>
+
+                <br>
+
+                <a href="result.html" class="btn">
+                    View Full Analysis
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 DEVELOPMENT
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>🎯 Development</h2>
+
+                <br>
+
+                <p id="developmentMessage">
+                    Complete an assessment to receive
+                    your personalized development plan.
+                </p>
+
+                <br>
+
+                <a href="plan.html" class="btn">
+                    View Development Plan
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 ACHIEVEMENTS
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>🏅 Achievements</h2>
+
+                <br>
+
+                <p id="achievement1">
+                    🔒 First Assessment
+                </p>
+
+                <p id="achievement2">
+                    🔒 Push-up Starter
+                </p>
+
+                <p id="achievement3">
+                    🔒 Improving Athlete
+                </p>
+
+                <p id="achievement4">
+                    🔒 All-Rounder
+                </p>
+
+                <br>
+
+                <a href="progress.html" class="btn">
+                    View Progress
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 OPPORTUNITIES
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>🏟️ Sports Opportunities</h2>
+
+                <p>
+                    Find coaches and sports facilities
+                    to continue your athletic development.
+                </p>
+
+                <br>
+
+                <a href="coach.html" class="btn">
+                    Find Coaches & Facilities
+                </a>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- =========================
+                 CONTINUE JOURNEY
+            ========================== -->
+
+            <div class="hero-card">
+
+                <h2>🚀 Continue Your Journey</h2>
+
+                <p>
+                    Keep training, track your progress
+                    and discover your sporting potential.
+                </p>
+
+                <br>
+
+                <a href="assessment.html" class="btn">
+                    Start New Assessment
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+
+        // ==============================
+        // ATHLETE PROFILE
+        // ==============================
+
+        const athleteName =
+            localStorage.getItem("athleteName");
+
+        const athleteAge =
+            localStorage.getItem("athleteAge");
+
+        const athleteLocation =
+            localStorage.getItem("athleteLocation");
+
+        const athleteSport =
+            localStorage.getItem("athleteSport");
+
+
+        if (athleteName) {
+
+            document.getElementById("athleteName").textContent =
+                athleteName;
+
+            document.getElementById("dashboardTitle").textContent =
+                athleteName + "'s Dashboard";
+
+        }
+
+
+        if (athleteAge) {
+
+            document.getElementById("athleteAge").textContent =
+                athleteAge;
+
+        }
+
+
+        if (athleteLocation) {
+
+            document.getElementById("athleteLocation").textContent =
+                athleteLocation;
+
+        }
+
+
+        if (athleteSport) {
+
+            document.getElementById("athleteSport").textContent =
+                athleteSport;
+
+        }
+
+
+        // ==============================
+        // FITNESS RESULTS
+        // ==============================
+
+        const sprint =
+            localStorage.getItem("fitnessSprint");
+
+        const pushups =
+            localStorage.getItem("fitnessPushups");
+
+        const jump =
+            localStorage.getItem("fitnessJump");
+
+        const endurance =
+            localStorage.getItem("fitnessEndurance");
+
+
+        if (sprint) {
+
+            document.getElementById("sprint").textContent =
+                sprint;
+
+        }
+
+
+        if (pushups) {
+
+            document.getElementById("pushups").textContent =
+                pushups;
+
+        }
+
+
+        if (jump) {
+
+            document.getElementById("jump").textContent =
+                jump;
+
+        }
+
+
+        if (endurance) {
+
+            document.getElementById("endurance").textContent =
+                endurance;
+
+        }
+
+
+        // ==============================
+        // RECOMMENDED SPORTS
+        // ==============================
+
+        const savedSports =
+            JSON.parse(
+                localStorage.getItem("recommendedSports")
+            );
+
+
+        if (savedSports && savedSports.length > 0) {
+
+            document.getElementById(
+                "recommendedSports"
+            ).innerHTML = savedSports
+                .map(sport => {
+
+                    let icon = "🏅";
+
+
+                    if (sport.startsWith("Athletics")) {
+
+                        icon = "🏃";
+
+                    }
+
+                    else if (sport.startsWith("Football")) {
+
+                        icon = "⚽";
+
+                    }
+
+                    else if (sport.startsWith("Basketball")) {
+
+                        icon = "🏀";
+
+                    }
+
+
+                    return `
+                        <div class="sport-result">
+                            <span>${icon} ${sport}</span>
+                        </div>
+                    `;
+
+                })
+                .join("");
+
+        }
+
+
+        // ==============================
+        // DEVELOPMENT MESSAGE
+        // ==============================
+
+        if (
+            sprint &&
+            pushups &&
+            jump &&
+            endurance
+        ) {
+
+            document.getElementById(
+                "developmentMessage"
+            ).textContent =
+                "Your fitness assessment is complete. Check your development plan to work on your key fitness areas.";
+
+        }
+
+
+        // ==============================
+        // ACHIEVEMENTS
+        // ==============================
+
+        let improvedAreas = 0;
+
+
+        // First Assessment
+
+        if (
+            sprint &&
+            pushups &&
+            jump &&
+            endurance
+        ) {
+
+            document.getElementById(
+                "achievement1"
+            ).textContent =
+                "🥇 First Assessment — Unlocked!";
+
+        }
+
+
+        // Push-up Starter
+
+        if (Number(pushups) >= 10) {
+
+            document.getElementById(
+                "achievement2"
+            ).textContent =
+                "💪 Push-up Starter — Unlocked!";
+
+        }
+
+
+        // Get first assessment
+
+        const firstData =
+            JSON.parse(
+                localStorage.getItem("firstAssessment")
+            );
+
+
+        // Calculate improvement
+
+        if (firstData) {
+
+            if (
+                firstData.sprint -
+                Number(sprint) > 0
+            ) {
+
+                improvedAreas++;
+
+            }
+
+
+            if (
+                Number(pushups) -
+                firstData.pushups > 0
+            ) {
+
+                improvedAreas++;
+
+            }
+
+
+            if (
+                Number(jump) -
+                firstData.jump > 0
+            ) {
+
+                improvedAreas++;
+
+            }
+
+
+            if (
+                Number(endurance) -
+                firstData.endurance > 0
+            ) {
+
+                improvedAreas++;
+
+            }
+
+        }
+
+
+        // Improving Athlete
+
+        if (improvedAreas >= 1) {
+
+            document.getElementById(
+                "achievement3"
+            ).textContent =
+                "📈 Improving Athlete — Unlocked!";
+
+        }
+
+
+        // All-Rounder
+
+        if (
+            Number(pushups) >= 20 &&
+            Number(jump) >= 40 &&
+            Number(endurance) >= 10 &&
+            Number(sprint) <= 15
+        ) {
+
+            document.getElementById(
+                "achievement4"
+            ).textContent =
+                "🏆 All-Rounder — Unlocked!";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

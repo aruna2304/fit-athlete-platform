@@ -16,18 +16,28 @@
         <div class="logo">FITFORGE</div>
     </header>
 
+
     <main class="hero">
 
         <div class="hero-text">
 
-            <h1>Your FITFORGE Analysis</h1>
+            <!-- Athlete name -->
+            <h1 id="resultTitle">
+                Your FITFORGE Analysis
+            </h1>
+
 
             <p>
                 Based on your fitness assessment, FITFORGE has identified
                 sports that may match your current strengths.
             </p>
 
+
             <div class="hero-card">
+
+                <!-- ==============================
+                     SPORT RECOMMENDATIONS
+                =============================== -->
 
                 <h2>🏆 Recommended Sports</h2>
 
@@ -35,7 +45,13 @@
                     Loading your recommendations...
                 </div>
 
+
                 <br>
+
+
+                <!-- ==============================
+                     FITNESS RESULTS
+                =============================== -->
 
                 <h2>📊 Your Fitness Results</h2>
 
@@ -59,7 +75,65 @@
                     <strong id="enduranceResult">-</strong> minutes
                 </p>
 
+
                 <br>
+
+
+                <!-- ==============================
+                     FITNESS ANALYSIS
+                =============================== -->
+
+                <h2>🧠 Your Fitness Analysis</h2>
+
+                <div class="hero-card">
+
+                    <p>
+                        ⚡ Speed:
+                        <strong id="speedAnalysis">
+                            Analyzing...
+                        </strong>
+                    </p>
+
+                    <p>
+                        💪 Strength:
+                        <strong id="strengthAnalysis">
+                            Analyzing...
+                        </strong>
+                    </p>
+
+                    <p>
+                        🚀 Power:
+                        <strong id="powerAnalysis">
+                            Analyzing...
+                        </strong>
+                    </p>
+
+                    <p>
+                        🏃 Endurance:
+                        <strong id="enduranceAnalysis">
+                            Analyzing...
+                        </strong>
+                    </p>
+
+
+                    <br>
+
+
+                    <h3>🎯 Development Focus</h3>
+
+                    <p id="developmentFocus">
+                        Analyzing your fitness areas...
+                    </p>
+
+                </div>
+
+
+                <br>
+
+
+                <!-- ==============================
+                     WHAT NEXT
+                =============================== -->
 
                 <h2>🎯 What Next?</h2>
 
@@ -68,7 +142,9 @@
                     and connect with coaches and sports facilities.
                 </p>
 
+
                 <br>
+
 
                 <a href="plan.html" class="btn">
                     View My Development Plan
@@ -83,10 +159,31 @@
 
     <script>
 
-        // Get sport recommendations from URL
+
+        // ==============================
+        // SHOW ATHLETE NAME
+        // ==============================
+
+        const athleteName =
+            localStorage.getItem("athleteName");
+
+
+        if (athleteName) {
+
+            document.getElementById("resultTitle").textContent =
+                athleteName + "'s FITFORGE Analysis";
+
+        }
+
+
+
+        // ==============================
+        // GET SPORT RECOMMENDATIONS
+        // ==============================
 
         const params =
             new URLSearchParams(window.location.search);
+
 
         const sports =
             params.get("sports");
@@ -106,15 +203,21 @@
 
 
                     if (sport.startsWith("Athletics")) {
+
                         icon = "🏃";
+
                     }
 
                     else if (sport.startsWith("Football")) {
+
                         icon = "⚽";
+
                     }
 
                     else if (sport.startsWith("Basketball")) {
+
                         icon = "🏀";
+
                     }
 
 
@@ -136,7 +239,10 @@
         }
 
 
-        // Get actual assessment data
+
+        // ==============================
+        // GET ASSESSMENT DATA
+        // ==============================
 
         const sprint =
             localStorage.getItem("fitnessSprint");
@@ -151,7 +257,10 @@
             localStorage.getItem("fitnessEndurance");
 
 
-        // Display assessment data
+
+        // ==============================
+        // DISPLAY ASSESSMENT DATA
+        // ==============================
 
         if (sprint) {
 
@@ -160,12 +269,14 @@
 
         }
 
+
         if (pushups) {
 
             document.getElementById("pushupResult").textContent =
                 pushups;
 
         }
+
 
         if (jump) {
 
@@ -174,6 +285,7 @@
 
         }
 
+
         if (endurance) {
 
             document.getElementById("enduranceResult").textContent =
@@ -181,7 +293,167 @@
 
         }
 
+
+
+        // ==============================
+        // FITNESS SCORE CALCULATION
+        // ==============================
+
+        const sprintValue =
+            Number(sprint);
+
+        const pushupValue =
+            Number(pushups);
+
+        const jumpValue =
+            Number(jump);
+
+        const enduranceValue =
+            Number(endurance);
+
+
+
+        // Speed score
+        const speedScore =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    (18 - sprintValue) * 10
+                )
+            );
+
+
+        // Strength score
+        const strengthScore =
+            Math.min(
+                100,
+                pushupValue * 3
+            );
+
+
+        // Power score
+        const powerScore =
+            Math.min(
+                100,
+                jumpValue * 2
+            );
+
+
+        // Endurance score
+        const enduranceScore =
+            Math.min(
+                100,
+                enduranceValue * 6
+            );
+
+
+
+        // ==============================
+        // PERFORMANCE LEVEL
+        // ==============================
+
+        function getPerformance(score) {
+
+            if (score >= 75) {
+
+                return "Strong 💪";
+
+            }
+
+
+            if (score >= 50) {
+
+                return "Average 👍";
+
+            }
+
+
+            return "Needs Improvement ⚠️";
+
+        }
+
+
+
+        // ==============================
+        // DISPLAY FITNESS ANALYSIS
+        // ==============================
+
+        document.getElementById("speedAnalysis").textContent =
+            getPerformance(speedScore);
+
+
+        document.getElementById("strengthAnalysis").textContent =
+            getPerformance(strengthScore);
+
+
+        document.getElementById("powerAnalysis").textContent =
+            getPerformance(powerScore);
+
+
+        document.getElementById("enduranceAnalysis").textContent =
+            getPerformance(enduranceScore);
+
+
+
+        // ==============================
+        // FIND WEAK AREAS
+        // ==============================
+
+        const areas = [
+
+            {
+                name: "speed",
+                score: speedScore
+            },
+
+            {
+                name: "strength",
+                score: strengthScore
+            },
+
+            {
+                name: "power",
+                score: powerScore
+            },
+
+            {
+                name: "endurance",
+                score: enduranceScore
+            }
+
+        ];
+
+
+        // Sort weakest → strongest
+
+        areas.sort(
+            (a, b) => a.score - b.score
+        );
+
+
+        // Get two weakest areas
+
+        const weakest =
+            areas.slice(0, 2);
+
+
+
+        // ==============================
+        // DEVELOPMENT FOCUS
+        // ==============================
+
+        document.getElementById("developmentFocus").textContent =
+
+            "Focus on improving " +
+            weakest[0].name +
+            " and " +
+            weakest[1].name +
+            " to improve your overall athletic performance.";
+
+
     </script>
+
 
 </body>
 

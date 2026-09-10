@@ -125,6 +125,14 @@ function calculateResult() {
     );
 
 
+    // Save recommended sports for Dashboard
+
+    localStorage.setItem(
+        "recommendedSports",
+        JSON.stringify(sports)
+    );
+
+
     // Open results page
 
     window.location.href =
